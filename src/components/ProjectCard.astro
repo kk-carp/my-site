@@ -1,0 +1,19 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { title, description, tags, cover, role, isExample } = project.data;
+---
+<article class="project-card rounded-lg border border-primary-line bg-surface p-4">
+  <a class="project-cover grid place-items-center rounded-md bg-page text-primary" href={`/projects/${project.id}/`} aria-label={`查看项目：${title}`}>
+    <Icon name={`lucide:${cover}`} aria-hidden="true" />
+    <span class="cover-label">{isExample ? '示意封面' : '项目概览'}</span>
+  </a>
+  <h3 class="mt-4 mb-1 text-lg font-bold"><a href={`/projects/${project.id}/`}>{title}</a></h3>
+  <p class="mb-3 text-sm text-muted">{description}</p>
+  <div class="flex flex-wrap gap-2">{[...tags, role].map(tag => <span class="tag">{tag}</span>)}</div>
+  <a class="project-more mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary" href={`/projects/${project.id}/`}>
+    查看项目说明 <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+  </a>
+</article>

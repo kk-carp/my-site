@@ -1,0 +1,37 @@
+---
+import { Icon } from 'astro-icon/components';
+import AutumnWindow from '../components/AutumnWindow.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostRow from '../components/PostRow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { publishedPosts, publishedProjects } from '../lib/content';
+const [posts, projects] = await Promise.all([publishedPosts(), publishedProjects()]);
+---
+<BaseLayout title="首页" active="home">
+  <section class="hero" aria-labelledby="intro-title">
+    <div class="min-w-0">
+      <p class="intro-note"><span class="status-dot" aria-hidden="true"></span>在这里，记录一些正在发生的事</p>
+      <h1 id="intro-title"><span>你好，</span><span>我是林安。</span></h1>
+      <p class="lead">一个正在开发AI应用的程序员</p>
+      <p class="description">现在主要在整理自己的作品和写作方向。<br />喜欢把复杂问题讲成人话，也喜欢在路上发现新鲜事。</p>
+      <div class="flex flex-wrap gap-2" aria-label="兴趣">{['AI 应用', '写作', '旅行'].map(tag => <span class="tag">{tag}</span>)}</div>
+      <div class="contact-icons mt-7 flex gap-5 text-primary" aria-label="联系方式，链接待补充">
+        <span role="img" aria-label="邮箱（待补充）" title="邮箱 · 待补充"><Icon name="lucide:mail" aria-hidden="true" /></span>
+        <span role="img" aria-label="GitHub（待补充）" title="GitHub · 待补充"><Icon name="lucide:github" aria-hidden="true" /></span>
+      </div>
+    </div>
+    <div class="portrait"><AutumnWindow /><p>把想法，慢慢做成日常。</p></div>
+  </section>
+  <section class="home-section reveal">
+    <SectionHeading title="最近在做" subtitle="一些关于创造、整理和记录的尝试 · 示例作品" href="/projects/" label="全部作品" />
+    <div class="project-grid grid gap-6">{projects.slice(0, 3).map(project => <ProjectCard project={project} />)}</div>
+  </section>
+  <section class="home-section reveal">
+    <SectionHeading title="最近在写" subtitle="把想清楚的事，写得明白一点 · 示例文章" href="/blog/" label="全部文章" />
+    <div class="grid gap-4">{posts.slice(0, 2).map(post => <PostRow post={post} />)}</div>
+  </section>
+  <aside class="closing reveal flex items-center justify-between gap-6 rounded-lg bg-primary text-page">
+    <p class="font-display text-lg font-bold">保持好奇，也保持自己的节奏。</p><span class="text-xs">关于 AI，关于生活，关于下一次出发。</span>
+  </aside>
+</BaseLayout>

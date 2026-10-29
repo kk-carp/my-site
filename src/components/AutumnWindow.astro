@@ -1,0 +1,84 @@
+---
+import avatar from '../../头像.png';
+const leaves = [
+  'M12 2C3 5 1 12 6 17c5 4 13-2 12-10l-6 7',
+  'm12 2 2 6 5-2-2 6 4 2-7 3-2 5-2-5-7-3 4-2-2-6 5 2z',
+  'M3 12C8 2 17 3 21 5c-1 10-8 16-14 12L3 12Zm3 4 11-9',
+];
+---
+<button class="autumn-window" type="button" aria-label="林安的头像窗景，点击吹过一阵秋风" title="让秋风吹过窗边">
+  <span class="avatar-frame window-frame">
+    <svg class="brickwork" width="100%" height="100%" aria-hidden="true"><defs><pattern id="avatar-brickwork" width="40" height="28" patternUnits="userSpaceOnUse"><path d="M0 0H40M0 14H40M0 28H40M20 0V14M0 14V28M40 14V28" /></pattern></defs><rect width="100%" height="100%" fill="url(#avatar-brickwork)" /></svg>
+    <img class="avatar-image" src={avatar.src} width={avatar.width} height={avatar.height} alt="林安的头像：一只在秋风中眨眼的长毛猫" loading="eager" decoding="async" />
+  </span>
+  <span class="window-sill" aria-hidden="true"></span>
+  <span class="weather" aria-hidden="true">
+    <svg class="wind" viewBox="0 0 240 260" fill="none"><path d="M6 91c34-22 55 12 88-2s40-29 66-18 13 31 0 25"/><path d="M34 155c27-23 53 15 87-6s53-13 85-28"/><path d="M151 35c24-16 51-7 67 9"/></svg>
+    {[0, 1, 2, 3].map((index) => <svg class={`leaf leaf-${index}`} viewBox="0 0 24 24"><path d={leaves[index % leaves.length]} /><path class="leaf-vein" d="m6 21 6-9" /></svg>)}
+  </span>
+</button>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.autumn-window').forEach(window => {
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const play = () => {
+      if (reducedMotion.matches || window.classList.contains('is-playing')) return;
+      window.classList.add('is-playing');
+    };
+    window.addEventListener('pointerenter', event => {
+      if (event.pointerType !== 'touch') play();
+    });
+    window.addEventListener('click', play);
+    window.addEventListener('animationend', event => {
+      if ((event.target as Element).classList.contains('leaf-3')) window.classList.remove('is-playing');
+    });
+    reducedMotion.addEventListener('change', () => window.classList.remove('is-playing'));
+  });
+</script>
+
+<style>
+  .autumn-window { position: relative; display: block; padding: 0 8px 13px; border: 0; background: transparent; color: var(--primary); --fall: 135px; --brick: color-mix(in srgb, #B85C38 76%, #3D2B1F); --brick-edge: color-mix(in srgb, #B85C38 48%, #3D2B1F); --mortar: color-mix(in srgb, #D4A373 50%, var(--brick)); }
+  .window-frame { position: relative; display: block; padding: 9px; border: 1px solid var(--brick-edge); background: var(--brick); }
+  .brickwork { position: absolute; inset: 0; pointer-events: none; }
+  .brickwork path { fill: none; stroke: var(--mortar); stroke-width: 1.3; }
+  .window-frame .avatar-image { position: relative; border-radius: 100px 100px 2px 2px; outline: 1px solid var(--brick-edge); }
+  .window-sill { position: absolute; bottom: 4px; left: 0; right: 0; height: 11px; border-radius: 3px; background: var(--brick); border-top: 1px solid var(--mortar); border-bottom: 3px solid var(--brick-edge); }
+  .weather { position: absolute; inset: -12px; pointer-events: none; }
+  .wind { width: 100%; height: 100%; overflow: visible; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 240; stroke-dashoffset: 240; opacity: 0; }
+  .leaf { position: absolute; width: 17px; height: 22px; fill: var(--primary); stroke: var(--primary); stroke-width: .6; opacity: 0; transform-origin: center; }
+  .leaf-vein { fill: none; stroke: var(--bg); stroke-width: .7; }
+  .leaf-0 { left: 7%; top: 17%; }
+  .leaf-1 { left: 72%; top: 3%; fill: var(--accent); }
+  .leaf-2 { left: 19%; top: 44%; fill: var(--accent); }
+  .leaf-3 { left: 77%; top: 32%; }
+  .is-playing .wind { animation: breeze 2.2s ease-out both; }
+  .is-playing .leaf { animation: falling-leaf 2.2s ease-in-out both; }
+  .is-playing .leaf-1 { animation-delay: .16s; }
+  .is-playing .leaf-2 { animation-delay: .3s; }
+  .is-playing .leaf-3 { animation-delay: .45s; }
+  @keyframes breeze {
+    0% { opacity: 0; stroke-dashoffset: 240; transform: translateX(-8px); }
+    25% { opacity: .6; }
+    75% { opacity: .35; }
+    100% { opacity: 0; stroke-dashoffset: -200; transform: translateX(8px); }
+  }
+  @keyframes falling-leaf {
+    0% { opacity: 0; transform: translate(0, -8px) rotate(-25deg); }
+    18% { opacity: .85; }
+    40% { transform: translate(16px, calc(var(--fall) * .3)) rotate(35deg); }
+    70% { opacity: .65; transform: translate(-4px, calc(var(--fall) * .65)) rotate(-40deg); }
+    100% { opacity: 0; transform: translate(8px, var(--fall)) rotate(75deg); }
+  }
+  @media (max-width: 560px) {
+    .autumn-window { padding: 0 4px 8px; --fall: 46px; }
+    .window-frame { padding: 4px; }
+    .window-sill { height: 7px; bottom: 1px; border-bottom-width: 2px; }
+    .weather { inset: -5px; }
+    .leaf { width: 10px; height: 13px; }
+    .wind { stroke-width: 2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .weather { display: none; }
+    .is-playing .leaf, .is-playing .wind { animation: none; }
+  }
+</style>

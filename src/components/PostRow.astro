@@ -1,0 +1,16 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/content';
+interface Props { post: CollectionEntry<'blog'>; showTags?: boolean }
+const { post, showTags = false } = Astro.props;
+---
+<a class="blog-row" href={`/blog/${post.id}/`}>
+  <time class="text-xs text-primary" datetime={post.data.pubDate.toISOString().slice(0, 10)}>{formatDate(post.data.pubDate)}</time>
+  <div class="min-w-0">
+    <h3 class="mb-2 text-lg font-bold">{post.data.title}</h3>
+    <p class="text-sm text-muted">{post.data.description}</p>
+    {showTags && <div class="mt-3 flex flex-wrap gap-2">{post.data.tags.map(tag => <span class="tag">{tag}</span>)}</div>}
+  </div>
+  <Icon name="lucide:arrow-up-right" class="row-arrow text-primary" aria-hidden="true" />
+</a>

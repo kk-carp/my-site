@@ -1,0 +1,55 @@
+---
+import { Icon } from 'astro-icon/components';
+import '../styles/global.css';
+interface Props { title: string; description?: string; active?: 'home' | 'projects' | 'blog' }
+const { title, description = '林安的个人网站。一个正在开发AI应用的程序员，喜欢把复杂问题讲成人话。', active } = Astro.props;
+const navigation = [
+  { key: 'home', href: '/', label: '首页' },
+  { key: 'projects', href: '/projects/', label: '作品' },
+  { key: 'blog', href: '/blog/', label: '写作' },
+];
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} · 林安</title>
+    <script is:inline>
+      // Apply before first paint so page navigation preserves the selected theme.
+      (() => {
+        let saved;
+        try { saved = localStorage.getItem('linan-theme'); } catch {}
+        document.documentElement.dataset.theme = saved === 'light' || saved === 'dark'
+          ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <div class="shell flex items-center justify-between gap-4">
+        <a class="brand flex items-center gap-3 font-bold" href="/" aria-label="林安，返回首页">
+          <span class="brand-mark font-display text-primary">林</span><span>林安</span>
+        </a>
+        <div class="header-right flex items-center">
+          <nav class="flex items-center" aria-label="主导航">
+            {navigation.map(item => <a href={item.href} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
+          </nav>
+          <button class="theme-toggle grid place-items-center" type="button" aria-label="切换到暗色模式" aria-pressed="false">
+            <Icon name="lucide:moon" class="moon-icon" aria-hidden="true" />
+            <Icon name="lucide:sun" class="sun-icon" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="shell min-h-[calc(100svh-166px)]"><slot /></main>
+    <footer class="site-footer shell flex justify-between gap-5 text-muted">
+      <span>© {new Date().getFullYear()} 林安</span><span>认真做东西，慢慢写下来。</span>
+    </footer>
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>

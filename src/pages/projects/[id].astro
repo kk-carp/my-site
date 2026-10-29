@@ -1,0 +1,25 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedProjects } from '../../lib/content';
+export async function getStaticPaths() {
+  return (await publishedProjects()).map(project => ({ params: { id: project.id }, props: { project } }));
+}
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<BaseLayout title={project.data.title} description={project.data.description} active="projects">
+  <article class="article">
+    <a class="back-link inline-flex items-center gap-2" href="/projects/"><Icon name="lucide:arrow-left" aria-hidden="true" />返回全部作品</a>
+    <header class="article-heading">
+      {project.data.isExample && <p class="content-note">示例作品 · 项目信息及角色待替换为真实资料</p>}
+      <h1>{project.data.title}</h1><p class="mb-5 text-muted">{project.data.description}</p>
+      <div class="flex flex-wrap gap-2">{[...project.data.tags, project.data.role].map(tag => <span class="tag">{tag}</span>)}</div>
+    </header>
+    <div class="prose"><Content /></div>
+    {project.data.link && <a class="primary-link mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-page" href={project.data.link} target="_blank" rel="noopener noreferrer">访问项目<Icon name="lucide:external-link" aria-hidden="true" /></a>}
+    <div class="article-end"><a href="/projects/">回到作品列表</a></div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedPosts, formatDate } from '../../lib/content';
+export async function getStaticPaths() {
+  return (await publishedPosts()).map(post => ({ params: { id: post.id }, props: { post } }));
+}
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseLayout title={post.data.title} description={post.data.description} active="blog">
+  <article class="article">
+    <a class="back-link inline-flex items-center gap-2" href="/blog/"><Icon name="lucide:arrow-left" aria-hidden="true" />返回全部文章</a>
+    <header class="article-heading">
+      {post.data.isExample && <p class="content-note">示例文章 · 用于展示正文排版，非已发布作品</p>}
+      <h1>{post.data.title}</h1>
+      <div class="article-meta flex flex-wrap gap-4 text-xs text-muted"><span>{post.data.author}</span><time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{formatDate(post.data.pubDate)}</time><span>{post.data.tags.join(' / ')}</span></div>
+    </header>
+    <div class="prose"><Content /></div>
+    <div class="article-end"><p>谢谢你读到这里。</p><a href="/blog/">回到写作列表</a></div>
+  </article>
+</BaseLayout>
