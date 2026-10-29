@@ -5,8 +5,8 @@ interface Props { title: string; description?: string; active?: 'home' | 'projec
 const { title, description = '林安的个人网站。一个正在开发AI应用的程序员，喜欢把复杂问题讲成人话。', active } = Astro.props;
 const navigation = [
   { key: 'home', href: '/', label: '首页' },
-  { key: 'projects', href: '/projects/', label: '作品' },
-  { key: 'blog', href: '/blog/', label: '写作' },
+  { key: 'blog', href: '/blog/', label: '博客' },
+  { key: 'projects', href: '/projects/', label: '项目' },
 ];
 ---
 <!doctype html>

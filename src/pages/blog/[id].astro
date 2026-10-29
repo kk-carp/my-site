@@ -19,6 +19,6 @@ const { Content } = await render(post);
       <div class="article-meta flex flex-wrap gap-4 text-xs text-muted"><span>{post.data.author}</span><time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{formatDate(post.data.pubDate)}</time><span>{post.data.tags.join(' / ')}</span></div>
     </header>
     <div class="prose"><Content /></div>
-    <div class="article-end"><p>谢谢你读到这里。</p><a href="/blog/">回到写作列表</a></div>
+    <div class="article-end"><p>谢谢你读到这里。</p><a href="/blog/">回到博客列表</a></div>
   </article>
 </BaseLayout>
