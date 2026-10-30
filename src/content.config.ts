@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const shared = {
@@ -21,7 +22,7 @@ const projects = defineCollection({
     order: z.number(),
     cover: z.enum(['notebook-pen', 'panels-top-left', 'map']),
     role: z.string(),
-    link: z.string().url().refine(value => /^https?:\/\//.test(value), '项目链接须为 HTTP(S) 地址').optional(),
+    link: z.url().refine(value => /^https?:\/\//.test(value), '项目链接须为 HTTP(S) 地址').optional(),
   }),
 });
 

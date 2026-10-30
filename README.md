@@ -1,10 +1,10 @@
 # 林安的个人网站
 
-沿用 `原型/` 中已确认的暖米白、陶土橙、卡片底色、加粗标题和固定导航，使用 Astro 5 静态生成、Tailwind CSS v4（CSS-first）、astro-icon 与 Lucide 图标集实现。
+沿用 `原型/` 中已确认的暖米白、陶土橙、卡片底色、加粗标题和固定导航，使用 Astro 7 静态生成、Tailwind CSS v4（CSS-first）、astro-icon 与 Lucide 图标集实现。
 
 ## 本地运行
 
-在包含本文件与 package.json 的 `my-site/` 目录中执行，使用 Node.js 22.12+（本次验证环境为 Node.js 24.15）：
+在包含本文件与 package.json 的 `my-site/` 目录中执行，统一使用 Node.js `24.15.0` 与 npm `11.17.0`。`.node-version`、`engines.node` 与 `packageManager` 记录对应版本；`@types/node` 使用 24 系列。
 
 ```sh
 npm ci
@@ -56,6 +56,14 @@ isExample: false
 
 项目字段参考 `src/content/projects/digital-garden.md`：`order` 控制排序，`cover` 选择已约定的 Lucide 图标，`tags` 表示技术栈或分类，`role` 表示角色；可选 `link` 仅接受 HTTP(S) 地址，未配置时不显示外链。Markdown 内容可自由扩展项目说明。文章和项目的草稿在列表与详情路由中均过滤。
 
+文章图片统一放在 `public/images/blog/<文章文件名>/`，与 Markdown 一起纳入 Git。当前旅行文章的图片为 `public/images/blog/travel-with-space/autumn-forest.jpg`，正文引用：
+
+```md
+![秋天的森林](/images/blog/travel-with-space/autumn-forest.jpg)
+```
+
+`public/` 中的文件构建时原样复制至 `dist/`；发布网站时图片随静态产物一起上传至 Cloudflare，不需要独立图床、R2 或上传密钥。以后新增图片建议使用小写英文文件名，并在上传前压缩；当前保留原图。只在本地保存而未提交的图片不会出现在 Git 自动部署中。
+
 当前展示的3篇文章、3个项目均保留示例标记，不代表已发布的真实成果。两个 `draft: true` 的文件用于演示未发布状态。邮箱和 GitHub 只显示图标，无链接。首页头像直接引用根目录 `头像.png`，构建时自动生成资源地址。拱形窗框和窗台采用深砖红色，CSS与SVG绘制错缝砖纹，中央不设十字窗格，鼠标移入、点击或键盘激活时播放一次约2.7秒的风线与四片SVG落叶，播放期间不重复叠加。手机点击也可触发；系统开启减少动态效果时不播放，保留静态窗景。无需额外图片或动画依赖。
 
 ## 交付与发布
@@ -76,12 +84,14 @@ git commit -m "说明本次修改"
 git push
 ```
 
-首次克隆后运行 `npm ci` 安装锁文件对应的依赖，再运行 `npm run dev`。
+首次克隆后运行 `npm ci` 安装锁文件对应的依赖，再运行 `npm run dev`。Astro 精确固定为 `7.4.4`，`package.json` 与 `package-lock.json` 应保持一致；不使用 `npm update` 或 `npm audit fix --force` 替代安装。当前采用静态输出，不安装 SSR 适配器。
 
 当前尚未部署网站，GitHub源码仓库地址不等于可访问的网站地址。未来可将 `dist/` 部署至静态托管平台；构建命令 `npm run build`，输出目录 `dist`。直接导入此仓库时，项目根目录选择仓库根目录；放入其他仓库的子目录时再按实际路径设置。不需要 SSR 适配器、数据库或账号系统。
 
-## 已知依赖限制
+Cloudflare Pages 构建使用 `NODE_VERSION=24.15.0`（仓库也提供 `.node-version`）。如需确保安装使用指定 npm 版本且严格遵循锁文件，可设置 `SKIP_DEPENDENCY_INSTALL=true`，构建命令填写 `npx --yes npm@11.17.0 ci && npm run check && npm run build && npm run verify`，输出目录仍为 `dist`。检查与构建顺序执行，避免同时写入 Astro/Vite 缓存。
 
-按课程要求锁定 Astro 5（实际解析版本及全部依赖见 package-lock.json）。本次 `npm audit` 报告5项依赖告警（1低、3高、1严重），其中包含 Astro 5 及其依赖；审计建议的整体修复涉及升级 Astro 主版本，因此没有执行 `npm audit fix --force`。网站采用纯静态输出，没有 SSR、Server Islands、用户上传图片或动态执行外部输入；这些范围限制不表示依赖漏洞已修复。公开部署前需重新评估并处理版本约束。复核命令：`npm audit`。
+## 依赖安全维护
 
-技术接入依据：[Astro 5 Content Collections](https://v5.docs.astro.build/en/guides/content-collections/)、[Tailwind 与 Astro](https://tailwindcss.com/docs/installation/framework-guides/astro)、[Astro Icon](https://www.astroicon.dev/getting-started/)。
+2026-10-30 将 Astro 从 `5.18.2` 升级至 `7.4.4`，更新锁文件，修复此前 Astro、esbuild、sharp、zod 与 zod-to-ts 的 5 项依赖告警。内容 schema 改用 `astro/zod`，继续使用本地 Markdown、静态路由和原有页面。依赖审计结果以当次 `npm audit` 为准，更新依赖后顺序执行 `npm run check`、`npm run build`、`npm run verify`，再复核 `npm audit`。
+
+技术接入依据：[Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)、[Astro 7 升级指南](https://docs.astro.build/en/guides/upgrade-to/v7/)、[Tailwind 与 Astro](https://tailwindcss.com/docs/installation/framework-guides/astro)、[Astro Icon](https://www.astroicon.dev/getting-started/)。

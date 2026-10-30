@@ -20,7 +20,7 @@ author: "林安"
 
 > 有些风景，要慢下来才看得到。
 
-
+![秋天的森林](/images/blog/travel-with-space/autumn-forest.jpg)
 
 ## 记录感受，也记录细节
 
