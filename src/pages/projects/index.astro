@@ -6,6 +6,5 @@ const projects = await publishedProjects();
 ---
 <BaseLayout title="项目" active="projects">
   <header class="page-heading"><h1>项目与尝试</h1><p>把想法落在具体的东西上。这里收集关于 AI 应用、个人工具和生活记录的实践。</p></header>
-  <p class="content-note">以下项目使用示例内容和示意封面，项目资料、技术栈及角色待替换为真实信息。</p>
   <section class="project-grid portfolio-grid grid gap-6 pb-16" aria-label="项目列表">{projects.map(project => <ProjectCard project={project} />)}</section>
 </BaseLayout>

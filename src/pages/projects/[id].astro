@@ -14,7 +14,6 @@ const { Content } = await render(project);
   <article class="article">
     <a class="back-link inline-flex items-center gap-2" href="/projects/"><Icon name="lucide:arrow-left" aria-hidden="true" />返回全部项目</a>
     <header class="article-heading">
-      {project.data.isExample && <p class="content-note">示例项目 · 项目信息及角色待替换为真实资料</p>}
       <h1>{project.data.title}</h1><p class="mb-5 text-muted">{project.data.description}</p>
       <div class="flex flex-wrap gap-2">{[...project.data.tags, project.data.role].map(tag => <span class="tag">{tag}</span>)}</div>
     </header>

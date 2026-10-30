@@ -7,7 +7,6 @@ const posts = await publishedPosts();
 <BaseLayout title="博客" active="blog">
   <div class="blog-page">
     <header class="page-heading"><h1>写下来，想明白。</h1><p>关于 AI 应用的实践，也关于写作、旅行和生活里值得留意的小事。</p></header>
-    <p class="content-note">以下标题、日期与正文均为展示示例，非已发布文章。</p>
     <section class="grid gap-4 pb-16" aria-label="文章列表">{posts.map(post => <PostRow post={post} showTags />)}</section>
   </div>
 </BaseLayout>

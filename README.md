@@ -86,9 +86,21 @@ git push
 
 首次克隆后运行 `npm ci` 安装锁文件对应的依赖，再运行 `npm run dev`。Astro 精确固定为 `7.4.4`，`package.json` 与 `package-lock.json` 应保持一致；不使用 `npm update` 或 `npm audit fix --force` 替代安装。当前采用静态输出，不安装 SSR 适配器。
 
-当前尚未部署网站，GitHub源码仓库地址不等于可访问的网站地址。未来可将 `dist/` 部署至静态托管平台；构建命令 `npm run build`，输出目录 `dist`。直接导入此仓库时，项目根目录选择仓库根目录；放入其他仓库的子目录时再按实际路径设置。不需要 SSR 适配器、数据库或账号系统。
+网站已通过 **Cloudflare Workers连接GitHub仓库** 部署，公开地址：[林安的个人网站](https://my-site.2159511156.workers.dev/)。源码仓库地址与公开网站地址用途不同。
 
-Cloudflare Pages 构建使用 `NODE_VERSION=24.15.0`（仓库也提供 `.node-version`）。如需确保安装使用指定 npm 版本且严格遵循锁文件，可设置 `SKIP_DEPENDENCY_INSTALL=true`，构建命令填写 `npx --yes npm@11.17.0 ci && npm run check && npm run build && npm run verify`，输出目录仍为 `dist`。检查与构建顺序执行，避免同时写入 Astro/Vite 缓存。
+2026-10-30由项目所有者确认的实际控制台字段：
+
+- Build command：`npm run build`。
+- Deploy command：`npx wrangler deploy`。
+- Root directory：`/`，即本GitHub仓库根目录。
+
+构建产物仍为 `dist/`；本地课程工作区中的 `my-site/` 文件夹名不需要重复填写到云端根目录。当前本地仓库未包含Wrangler配置文件，静态资产的识别方式须结合平台日志核实。保留已经成功的配置，不混用Pages字段或添加不需要的SSR适配器。Node.js/npm按项目版本声明与云端安装日志核对；本次未读取后台日志，不将本地版本声明作为云端已验证的证据。
+
+2026-10-30的公开HTTP检查：9个页面返回200且标题对应；5个引用静态资源返回200且类型正确；一次不存在路径请求返回404；已查页面HTML未发现localhost地址。检查未覆盖完整浏览器交互、手机布局、Console或跨浏览器行为，也未验证再次push后的自动更新。Git连接方式和上述三个字段由项目所有者确认。
+
+后续优化项：旅行文章图片约10.6 MB；邮箱/GitHub尚为待补充图标；示例内容继续保留标记；已查页面未见canonical，常见sitemap地址返回404。以上不影响本次基本上线结论，尚未实施修复。更新时顺序执行check、build、verify，再通过对应提交的云端部署和真实网址确认变化。
+
+配置依据：[Workers静态资源](https://developers.cloudflare.com/workers/static-assets/)、[Workers构建设置](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)。
 
 ## 依赖安全维护
 
