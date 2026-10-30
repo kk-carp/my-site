@@ -1,6 +1,6 @@
-# 林安的个人网站
+# koili
 
-沿用 `原型/` 中已确认的暖米白、陶土橙、卡片底色、加粗标题和固定导航，使用 Astro 7 静态生成、Tailwind CSS v4（CSS-first）、astro-icon 与 Lucide 图标集实现。
+koili 的个人网站，使用 Astro 7 静态生成、Tailwind CSS v4（CSS-first）、astro-icon 与 Lucide 图标集实现。首页采用大字名称与猫咪窗景双栏、简洁文章列表和三列作品区，窄屏依次转为单栏；保留暖米白、陶土橙、固定导航与亮暗主题。
 
 ## 本地运行
 
@@ -24,7 +24,7 @@ npm run preview
 
 ## 页面与源码
 
-- `/`：个人介绍、兴趣、联系方式图标、最近作品和文章。
+- `/`：个人介绍、猫咪窗景、兴趣、最近文章与作品。
 - `/projects/`、`/projects/[id]/`：作品列表与 Markdown 项目说明。
 - `/blog/`、`/blog/[id]/`：日期倒序的文章列表及正文详情。
 - `src/layouts/BaseLayout.astro`：公共页面、固定导航、主题初始化和页脚。
@@ -46,7 +46,7 @@ title: "我的新文章"
 description: "文章的一句话摘要"
 pubDate: "2026-10-29"
 tags: ["AI 应用", "写作"]
-author: "林安"
+author: "koili"
 draft: true
 isExample: false
 ---
@@ -86,7 +86,7 @@ git push
 
 首次克隆后运行 `npm ci` 安装锁文件对应的依赖，再运行 `npm run dev`。Astro 精确固定为 `7.4.4`，`package.json` 与 `package-lock.json` 应保持一致；不使用 `npm update` 或 `npm audit fix --force` 替代安装。当前采用静态输出，不安装 SSR 适配器。
 
-网站已通过 **Cloudflare Workers连接GitHub仓库** 部署，公开地址：[林安的个人网站](https://my-site.2159511156.workers.dev/)。源码仓库地址与公开网站地址用途不同。
+网站已通过 **Cloudflare Workers连接GitHub仓库** 部署，公开地址：[koili](https://my-site.2159511156.workers.dev/)。源码仓库地址与公开网站地址用途不同。
 
 2026-10-30由项目所有者确认的实际控制台字段：
 

@@ -5,7 +5,7 @@ pubDate: "2026-10-12"
 tags: ["旅行", "生活"]
 draft: false
 isExample: true
-author: "林安"
+author: "koili"
 ---
 
 我想给旅行记录留下一种松弛的写法：不急着介绍完整路线，先记住一个值得停下来的瞬间。

@@ -12,7 +12,7 @@ const shared = {
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
-  schema: z.object({ ...shared, pubDate: z.coerce.date(), author: z.string().default('林安') }),
+  schema: z.object({ ...shared, pubDate: z.coerce.date(), author: z.string().default('koili') }),
 });
 
 const projects = defineCollection({

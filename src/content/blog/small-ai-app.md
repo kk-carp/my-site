@@ -5,7 +5,7 @@ pubDate: "2026-10-21"
 tags: ["AI 应用", "开发"]
 draft: false
 isExample: true
-author: "林安"
+author: "koili"
 ---
 
 一个想法刚出现的时候，往往什么都想做：能聊天，能搜索，能整理笔记，最好还能替我规划接下来的一周。但功能越多，最初要解决的问题反而越模糊。
