@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import '../styles/global.css';
-interface Props { title: string; description?: string; active?: 'home' | 'projects' | 'blog' }
+interface Props { title: string; description?: string; active?: 'home' | 'projects' | 'blog' | 'learn' }
 const { title, description = 'koili 的个人网站。一个正在开发 AI 应用的程序员，喜欢把复杂问题讲成人话。', active } = Astro.props;
 const navigation = [
   { key: 'home', href: '/', label: '首页' },
@@ -48,7 +48,9 @@ const navigation = [
     </header>
     <main id="main" class="shell min-h-[calc(100svh-166px)]"><slot /></main>
     <footer class="site-footer shell flex justify-between gap-5 text-muted">
-      <span>© {new Date().getFullYear()} koili</span><span>认真做东西，慢慢写下来。</span>
+      <span>© {new Date().getFullYear()} koili</span>
+      <a class="footer-tool" href="/learn/" aria-current={active === 'learn' ? 'page' : undefined}><Icon name="lucide:bookmark" aria-hidden="true" />收藏夹<span>小工具</span></a>
+      <span>认真做东西，慢慢写下来。</span>
     </footer>
     <script src="../scripts/site.ts"></script>
   </body>

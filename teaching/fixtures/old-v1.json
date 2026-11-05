@@ -1,0 +1,1 @@
+{"version":1,"resources":[{"id":"r1","title":"JavaScript入门","url":"https://example.org/r1","tags":["前端"],"status":"todo"},{"id":"r2","title":"CSV解析","url":"https://example.org/r2","tags":["前端","工具"],"status":"done"},{"id":"r3","title":"Python练习","url":"https://example.org/r3","tags":["后端"],"status":"doing"}]}

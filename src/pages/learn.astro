@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/learn.css';
+// Teaching package generator selects 4 (memory), 5 (v1 persistence), or 6 (v2).
+const stage = 6;
+---
+<BaseLayout title="收藏夹" description="随手收藏值得留下的网址，用标签、状态和星标整理。" active="learn">
+  <div id="resource-app" class="learn-page" data-stage={stage}>
+    <header class="page-heading learn-heading">
+      <div><a class="learn-back" href="/">返回主页</a><h1>收藏夹</h1><p>随手收藏，随时找回。</p></div>
+      <p class="learn-local">网站小工具 · {stage >= 5 ? '保存在当前浏览器' : '刷新后清空'}</p>
+    </header>
+    <noscript><p class="content-note">请启用 JavaScript 后使用收藏工具。</p></noscript>
+    <div id="resource-message" class="learn-message" role="status" aria-live="polite"></div>
+    <div id="storage-error" class="learn-error" role="alert" hidden>
+      <p id="storage-error-text"></p><p>原始数据已保留。请先备份浏览器中的原始数据，修复后重试；加载成功前暂停修改。</p>
+      <button id="retry-load" type="button">重新读取</button>
+    </div>
+    <section class="learn-collection" aria-label="收藏的网址">
+      <div class="learn-toolbar">
+        <label class="learn-search"><span class="sr-only">搜索</span><input id="search" type="search" placeholder="搜索名称、网址或标签" /></label>
+        <label><span class="sr-only">标签筛选</span><select id="filter-tag"><option value="">全部标签</option></select></label>
+        <label><span class="sr-only">状态筛选</span><select id="filter-status"><option value="">全部状态</option><option value="todo">待看</option><option value="doing">在看</option><option value="done">已看</option></select></label>
+        {stage >= 6 && <label class="learn-checkbox"><input id="filter-starred" type="checkbox" />仅看星标</label>}
+        <button id="clear-filters" class="learn-text-button" type="button">重置</button>
+      </div>
+      <div class="learn-list-heading"><p id="resource-count"></p><p class="learn-hint">点击名称打开网址</p></div>
+      <p id="resource-empty" class="learn-empty"></p>
+      <ul id="resource-list" class="learn-list">
+        <li id="add-card" class="learn-add-card"><button id="open-add" type="button"><span class="learn-add-symbol" aria-hidden="true">＋</span><strong>添加收藏</strong><span>留下一个值得回看的网址</span></button></li>
+      </ul>
+    </section>
+    <details class="learn-data-tools">
+      <summary>备份、迁移与示例</summary>
+      <section class="learn-transfer" aria-label="数据迁移">
+        <button type="button" id="load-samples">加载三条示例</button>
+        {stage >= 5 && <>
+          <label class="learn-file">导入 CSV<input id="csv-file" type="file" accept=".csv,text/csv" /></label>
+          <button type="button" id="export-csv">导出全部 CSV</button>
+          <p class="learn-hint">收藏保存在当前浏览器，建议定期导出备份。CSV 可用于迁移；公式保护前缀可能改变特殊文本。</p>
+        </>}
+      </section>
+    </details>
+    {stage >= 5 && <section id="import-preview" class="learn-preview" aria-labelledby="preview-heading" hidden>
+      <h2 id="preview-heading" tabindex="-1">导入预览</h2><p id="preview-summary"></p><ul id="preview-details"></ul>
+      <div class="learn-actions"><button id="confirm-import" class="learn-primary" type="button">确认追加</button><button id="cancel-import" type="button">取消导入</button></div>
+    </section>}
+    <dialog id="resource-dialog" class="learn-dialog" aria-labelledby="editor-heading" aria-describedby="editor-description">
+      <section class="learn-editor">
+        <div class="learn-dialog-heading"><h2 id="editor-heading">添加收藏</h2><button id="close-editor" type="button" aria-label="关闭收藏表单">×</button></div>
+        <p id="editor-description" class="learn-hint">填入名称和网址，再为它加上标签。</p>
+        <p id="editor-message" class="learn-editor-error" role="alert" hidden></p>
+        <form id="resource-form" novalidate>
+          <fieldset id="editor-fields">
+            <div class="learn-form-grid">
+              <label>名称<input name="title" required placeholder="给这个收藏起个名字" autocomplete="off" /></label>
+              <label>网址<input name="url" type="url" required placeholder="https://…" autocomplete="url" /></label>
+              <label>标签<input name="tags" placeholder="设计;工具" autocomplete="off" /><span class="learn-hint">用英文分号 ; 分隔</span></label>
+              <label>状态<select name="status"><option value="todo">待看</option><option value="doing">在看</option><option value="done">已看</option></select></label>
+            </div>
+            <div class="learn-actions"><button class="learn-primary" type="submit" id="save-resource">保存收藏</button><button type="button" id="cancel-edit">取消</button></div>
+          </fieldset>
+        </form>
+      </section>
+    </dialog>
+  </div>
+  <script src="../scripts/resources.js"></script>
+</BaseLayout>

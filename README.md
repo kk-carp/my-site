@@ -24,6 +24,10 @@ npm run preview
 
 ## 页面与源码
 
+项目二的 `/learn/` 现名“收藏夹”，从网站页脚“小工具”入口进入。顶部以多列网址卡片展示名称、地址、标签、状态、星标及编辑/删除；添加卡片和编辑按钮打开表单弹窗。三状态显示待看/在看/已看，内部值与原收藏兼容；备份、CSV迁移和示例收在下方折叠区。收藏仅在同一浏览器同一来源的localStorage，通过CSV迁移；代码发布不会公开收藏。读取失败时保留原值并暂停修改，写失败保留弹窗输入。CSV公式保护可能给特殊文本添加前缀。
+
+新增命令 `npm run check:resources` 验证 A01—A06、CR-01及页面事件；`npm run teaching:pack` 生成第3—6章独立阶段工程和练习骨架。规格见 [spec.md](spec.md)，任务见 [tasks.md](tasks.md)，教师入口见 [teaching/README.md](teaching/README.md)。本地实现和检查不等于线上已发布或试教完成。
+
 - `/`：个人介绍、猫咪窗景、兴趣、最近文章与作品。
 - `/projects/`、`/projects/[id]/`：作品列表与 Markdown 项目说明。
 - `/blog/`、`/blog/[id]/`：日期倒序的文章列表及正文详情。

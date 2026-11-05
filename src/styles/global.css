@@ -85,6 +85,10 @@
   .blog-row time, .row-arrow { margin-top: 4px; }
   .closing { padding: 26px 30px; margin: 8px 0 55px; }
   .site-footer { border-top: 1px solid var(--line); padding: 25px 0 30px; font-size: 11px; }
+  .footer-tool { display: inline-flex; align-items: center; gap: 7px; color: var(--text); }
+  .footer-tool [data-icon] { width: 14px; height: 14px; }
+  .footer-tool > span { color: var(--muted); font-size: 10px; }
+  .footer-tool[aria-current="page"] { color: var(--primary); }
   .page-heading { padding: 44px 0 32px; }
   .page-heading h1 { font: 700 44px/1.4 var(--font-display); letter-spacing: 1px; margin-bottom: 15px; color: var(--primary); }
   .page-heading p { color: var(--muted); max-width: 600px; }
@@ -157,6 +161,8 @@
   .closing { display: block; padding: 23px; margin-bottom: 35px; }
   .closing p { font-size: 17px; margin-bottom: 7px; }
   .site-footer { font-size: 10px; }
+  .site-footer { flex-wrap: wrap; gap: 12px; }
+  .footer-tool > span { display: none; }
   .page-heading { padding: 32px 0 25px; }
   .page-heading h1 { font-size: 36px; }
   .article { padding: 25px 20px 30px; margin-top: 22px; font-size: 15px; }

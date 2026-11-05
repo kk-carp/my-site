@@ -14,7 +14,7 @@ assert.ok(existsSync(dist), '先运行 npm run build');
 const pages = files(dist).filter(path => path.endsWith('.html'));
 assert.ok(pages.length >= 10, '应包含首页、两个列表、示例详情和404页');
 const expected = [
-  '', 'blog', 'projects', 'blog/human-words', 'blog/small-ai-app', 'blog/travel-with-space',
+  '', 'blog', 'projects', 'learn', 'blog/human-words', 'blog/small-ai-app', 'blog/travel-with-space',
   'projects/one-page-ideas', 'projects/digital-garden', 'projects/travel-notes',
 ];
 for (const route of expected) assert.ok(existsSync(join(dist, route, 'index.html')), `缺少路由 ${route}`);
